@@ -6,19 +6,15 @@ class Calculator(ctk.CTk):
     def __init__(self):
         super().__init__()
         
-        # Configure window
-        self.title("Neumorphic Calculator")
-        self.geometry("400x600")
+        self.title("Bilimsel Hesap Makinesi")
+        self.geometry("500x700")
         
-        # Configure grid
         self.grid_columnconfigure((0,1,2,3), weight=1)
         
-        # Variables
         self.result_var = ctk.StringVar(value="0")
         self.expression = ""
         self.theme_mode = "light"
         
-        # Create display
         self.display = ctk.CTkEntry(
             self,
             textvariable=self.result_var,
@@ -29,16 +25,15 @@ class Calculator(ctk.CTk):
         )
         self.display.grid(row=0, column=0, columnspan=4, padx=20, pady=20, sticky="nsew")
         
-        # Button configurations
         self.buttons = {
-            'C': (1, 0), '±': (1, 1), '%': (1, 2), '÷': (1, 3),
-            '7': (2, 0), '8': (2, 1), '9': (2, 2), '×': (2, 3),
-            '4': (3, 0), '5': (3, 1), '6': (3, 2), '-': (3, 3),
-            '1': (4, 0), '2': (4, 1), '3': (4, 2), '+': (4, 3),
-            '0': (5, 0, 2), '.': (5, 2), '=': (5, 3)
+            'sin': (1, 0), 'cos': (1, 1), 'tan': (1, 2), 'C': (1, 3),
+            'log': (2, 0), '√': (2, 1), '^': (2, 2), '÷': (2, 3),
+            '7': (3, 0), '8': (3, 1), '9': (3, 2), '×': (3, 3),
+            '4': (4, 0), '5': (4, 1), '6': (4, 2), '-': (4, 3),
+            '1': (5, 0), '2': (5, 1), '3': (5, 2), '+': (5, 3),
+            '0': (6, 0, 2), '.': (6, 2), '=': (6, 3)
         }
         
-        # Create buttons
         for text, pos in self.buttons.items():
             width = 160 if len(pos) > 2 else 80
             button = ctk.CTkButton(
@@ -58,7 +53,6 @@ class Calculator(ctk.CTk):
             else:
                 button.grid(row=pos[0], column=pos[1], padx=5, pady=5, sticky="nsew")
                 
-        # Theme toggle button
         self.theme_button = ctk.CTkButton(
             self,
             text="🌙",
@@ -67,7 +61,7 @@ class Calculator(ctk.CTk):
             corner_radius=20,
             command=self.toggle_theme
         )
-        self.theme_button.grid(row=6, column=3, padx=5, pady=5, sticky="e")
+        self.theme_button.grid(row=7, column=3, padx=5, pady=5, sticky="e")
         
     def button_click(self, value):
         if value == 'C':
@@ -80,22 +74,43 @@ class Calculator(ctk.CTk):
                 self.result_var.set(result)
                 self.expression = str(result)
             except Exception as e:
-                self.result_var.set("Error")
+                self.result_var.set("Hata")
                 self.expression = ""
-        elif value == '±':
+        elif value in ['sin', 'cos', 'tan']:
             try:
                 current = float(self.expression)
-                self.expression = str(-current)
+                if value == 'sin':
+                    result = math.sin(math.radians(current))
+                elif value == 'cos':
+                    result = math.cos(math.radians(current))
+                else:
+                    result = math.tan(math.radians(current))
+                self.expression = str(result)
                 self.result_var.set(self.expression)
             except:
-                pass
-        elif value == '%':
+                self.result_var.set("Hata")
+                self.expression = ""
+        elif value == 'log':
             try:
                 current = float(self.expression)
-                self.expression = str(current/100)
+                result = math.log10(current)
+                self.expression = str(result)
                 self.result_var.set(self.expression)
             except:
-                pass
+                self.result_var.set("Hata")
+                self.expression = ""
+        elif value == '√':
+            try:
+                current = float(self.expression)
+                result = math.sqrt(current)
+                self.expression = str(result)
+                self.result_var.set(self.expression)
+            except:
+                self.result_var.set("Hata")
+                self.expression = ""
+        elif value == '^':
+            self.expression += '**'
+            self.result_var.set(self.expression)
         else:
             self.expression += value
             self.result_var.set(self.expression)
