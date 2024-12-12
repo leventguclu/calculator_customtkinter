@@ -1,7 +1,8 @@
+
 [project]
 name = "python-template"
 version = "0.1.0"
-description = ""
+description = "Modern Neumorphic Calculator"
 authors = ["Your Name <you@example.com>"]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = ["customtkinter"]
