@@ -1,4 +1,3 @@
-
 import customtkinter as ctk
 import math
 
@@ -6,7 +5,7 @@ class Calculator(ctk.CTk):
     def __init__(self):
         super().__init__()
         
-        self.title("Bilimsel Hesap Makinesi")
+        self.title("Scientific Calculator")
         self.geometry("500x700")
         
         self.grid_columnconfigure((0,1,2,3), weight=1)
@@ -14,6 +13,14 @@ class Calculator(ctk.CTk):
         self.result_var = ctk.StringVar(value="0")
         self.expression = ""
         self.theme_mode = "light"
+        
+        self.credit_label = ctk.CTkLabel(
+            self,
+            text="made by levo_gcl",
+            text_color="red",
+            font=("Arial", 16)
+        )
+        self.credit_label.grid(row=0, column=0, columnspan=4, padx=5, pady=(10, 0), sticky="nsew")
         
         self.display = ctk.CTkEntry(
             self,
@@ -23,15 +30,15 @@ class Calculator(ctk.CTk):
             justify="right",
             state="readonly"
         )
-        self.display.grid(row=0, column=0, columnspan=4, padx=20, pady=20, sticky="nsew")
+        self.display.grid(row=1, column=0, columnspan=4, padx=20, pady=20, sticky="nsew")
         
         self.buttons = {
-            'sin': (1, 0), 'cos': (1, 1), 'tan': (1, 2), 'C': (1, 3),
-            'log': (2, 0), '√': (2, 1), '^': (2, 2), '÷': (2, 3),
-            '7': (3, 0), '8': (3, 1), '9': (3, 2), '×': (3, 3),
-            '4': (4, 0), '5': (4, 1), '6': (4, 2), '-': (4, 3),
-            '1': (5, 0), '2': (5, 1), '3': (5, 2), '+': (5, 3),
-            '0': (6, 0, 2), '.': (6, 2), '=': (6, 3)
+            'sin': (2, 0), 'cos': (2, 1), 'tan': (2, 2), 'C': (2, 3),
+            'log': (3, 0), '√': (3, 1), '^': (3, 2), '÷': (3, 3),
+            '7': (4, 0), '8': (4, 1), '9': (4, 2), '×': (4, 3),
+            '4': (5, 0), '5': (5, 1), '6': (5, 2), '-': (5, 3),
+            '1': (6, 0), '2': (6, 1), '3': (6, 2), '+': (6, 3),
+            '0': (7, 0, 2), '.': (7, 2), '=': (7, 3)
         }
         
         for text, pos in self.buttons.items():
@@ -61,7 +68,7 @@ class Calculator(ctk.CTk):
             corner_radius=20,
             command=self.toggle_theme
         )
-        self.theme_button.grid(row=7, column=3, padx=5, pady=5, sticky="e")
+        self.theme_button.grid(row=7, column=3, columnspan=1, padx=5, pady=5, sticky="se")
         
     def button_click(self, value):
         if value == 'C':
